@@ -4,6 +4,8 @@ const morgan = require("morgan");
 const createError = require("http-errors");
 const xssClean = require("xss-clean");
 const rateLimit = require("express-rate-limit");
+const userRouter = require("./routers/userRouter");
+const seedRouter = require("./routers/seedRouters");
 
 const app = express();
 
@@ -25,6 +27,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(xssClean());
 app.use(rateLimiter);
+
+// users router
+app.use("/api/users", userRouter);
+app.use("/api/seed", seedRouter);
 
 app.get("/home", (req, res) => {
   res.json({ message: "server is running well" });
